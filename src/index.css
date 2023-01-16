@@ -247,3 +247,8 @@ svg {
     height: 15px;
     width: 15px;
   }
+
+  .itemName{
+    border: none;
+    background-color: transparent;
+  }

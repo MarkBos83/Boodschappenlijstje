@@ -20,9 +20,14 @@ class App extends React.Component {
   Done = (index) => {
     const check = document.getElementsByClassName('done');
     const itemdone = document.getElementsByClassName('item')
+    const itemNamedone = document.getElementsByClassName('itemName')[index]
+
+
     if (check[index].checked){
       itemdone[index].style.textDecoration = 'line-through';
       itemdone[index].style.color = 'gray';
+      itemNamedone.style.textDecoration = 'line-through';
+      itemNamedone.style.color = 'gray';
       const move = this.state.items[index];
       const filteredArray = this.state.items.filter(item => item !== this.state.items[index])
       const newarray = filteredArray.concat(move);
@@ -30,6 +35,8 @@ class App extends React.Component {
     } else {
       itemdone[index].style.textDecoration = 'none';
       itemdone[index].style.color = 'black';
+      itemNamedone.style.textDecoration = 'none';
+      itemNamedone.style.color = 'black';
       const filteredArray2 = this.state.items.filter(item => item === this.state.items[index])
       const filteredArray = this.state.items.filter(item => item !== this.state.items[index])
       const newarray = filteredArray2.concat(filteredArray);
@@ -64,23 +71,12 @@ class App extends React.Component {
     }
   }
 
-  spanSwitch = (index) => {
-    let itemname = document.getElementsByClassName('itemName')[index]
-    let txt = itemname.innerHTML;
-    let element = document.getElementsByClassName('itemNameChange')[index];
-    element.innerHTML = `<input className="itemName" onblur={spanReset(index)} value='${txt}' />`;
-    document.getElementsByTagName('input')[0].focus();
+  Change = (index) => {
+    let element = document.getElementsByClassName('itemName')[index].value
+    const newArray = this.state.items
+    newArray[index].name=element
+    this.setState({items: newArray})
   }
-  
-  spanReset(index) {
-    let itemname = document.getElementsByClassName('itemName')[index]
-    let txt = itemname.innerHTML;
-    let element = document.getElementsByClassName('itemNameChange')[index];
-    console.log(element)
-  
-    element.innerHTML = `<span className="itemName" onClick={()=>props.spanSwitch(props.index)}> ${txt} </span>`;
-  }
-
 
   render() {
     return (
@@ -98,8 +94,7 @@ class App extends React.Component {
             Removeitem={this.Removeitem}
             Done={this.Done}
             date={item.date}
-            spanSwitch={this.spanSwitch}
-            spanReset={this.spanReset}
+            Change={this.Change}
            />
         )}
 
